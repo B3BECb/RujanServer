@@ -1,0 +1,34 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="utf-8" />
+	<script type="text/javascript">
+	function getStudents() 
+	{
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', 'studentsDatabase?stud=all', false);
+		xhr.send();
+
+
+		if (xhr.status != 200) 
+		{
+		  alert( xhr.status + ': ' + xhr.statusText ); 
+		} else 
+		{
+		  return xhr.responseText;
+		}
+		return "";
+	}
+	</script>
+	<link rel="stylesheet" href="studentsDatabase/stiles.css">
+	<title>База данных студентов</title>
+</head>
+<body>
+	<h1>База данных студентов.</h1>
+    <img alt="" src="studentsDatabase/1462205769_Student-3.png"/>
+	<div id="data"></div>
+	<script>
+		data.innerHTML = getStudents();
+	</script>
+</body>
+</html>
