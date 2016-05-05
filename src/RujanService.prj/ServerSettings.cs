@@ -10,7 +10,13 @@ namespace RujanService
 	[Serializable]
 	public sealed class ServerSettings
 	{
+		#region Const
+
 		const string SETTINGS_PATH = @"C:\ProgramData\RujanServer\";
+
+		#endregion
+
+		#region Properties
 
 		/// <summary>Возвращает и задаёт адрес <see cref="RujanHttpServer"/>.</summary>
 		/// <value>Адрес сервера.</value>
@@ -20,13 +26,18 @@ namespace RujanService
 		/// <value>Порт сервера.</value>
 		public int Port { get; set; }
 
-		/// <summary>Инициализирует <see cref="ServerSettings"/> сервера <see cref="RujanHttpServer"/> с настройками поумолчанию.</summary>
+		#endregion
+
+		#region .ctor
+
+		/// <summary>Создаёт и инициализирует <see cref="ServerSettings"/> сервера <see cref="RujanHttpServer"/> с настройками поумолчанию.</summary>
 		public ServerSettings()
 		{
 			Address = "http://localhost";
 			Port = 4242;
 		}
-		/// <summary>Инициализирует <see cref="ServerSettings"/> сервера <see cref="RujanHttpServer"/> с заданными настройками.</summary>
+
+		/// <summary>Создаёт и инициализирует <see cref="ServerSettings"/> сервера <see cref="RujanHttpServer"/> с заданными настройками.</summary>
 		/// <param name="address">Адрес сервера.</param>
 		/// <param name="port">Порт сервера.</param>
 		public ServerSettings(string address, int port)
@@ -34,6 +45,10 @@ namespace RujanService
 			Address = address;
 			Port = port;
 		}
+
+		#endregion
+
+		#region Public methods
 
 		/// <summary>Загружает настройки <see cref="RujanHttpServer"/>.</summary>
 		public void Load()
@@ -89,5 +104,7 @@ namespace RujanService
 			int port;
 			if(parametr != "") settings.Port = int.TryParse(parametr, out port) ? port : settings.Port;
 		}
+
+		#endregion
 	}
 }

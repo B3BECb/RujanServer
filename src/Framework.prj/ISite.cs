@@ -7,12 +7,15 @@ namespace RujanService.Framework
 	public interface ISite : IDisposable
 	{
 		/// <summary>Возвращает наименование сайта.</summary>
+		/// <value>Наименование сайта.</value>
 		string Name { get; }
 
 		/// <summary>Возвращает описание сайта.</summary>
+		/// <value>Описание сайта.</value>
 		string Description { get; }
 
 		/// <summary>Возвращает адрес сайта на сервере.</summary>
+		/// <value>Адрес сайта.</value>
 		string Address { get; }
 
 		/// <summary>Получает ответ сайта на запрос <see cref="HttpListenerResponse"/>.</summary>

@@ -7,11 +7,13 @@ namespace RujanService.Framework
 	public class SiteResponse
 	{
 		#region Properties
-		
-		/// <summary>Возвращает содержимое страницы сайта.</summary>
+
+		/// <summary>Возвращает содержимое страницы сайта.</summary>		
+		/// <value>Содержимое страницы сайта.</value>
 		public string ResponseContent { get; }
 
 		/// <summary>Возвращает код состояния ответа.</summary>
+		/// <value>Код состояния ответа.</value>
 		public int ResponseStatus { get; }
 
 		#endregion

@@ -183,9 +183,12 @@ namespace RujanService
 					context.Response.ContentLength64 = fileStream.Length;
 
 					byte[] buffer = new byte[1024 * 16];
-					int nbytes;
-					while((nbytes = fileStream.Read(buffer, 0, buffer.Length)) > 0)
-						context.Response.OutputStream.Write(buffer, 0, nbytes);
+					int bytesCount;
+					while((bytesCount = fileStream.Read(buffer, 0, buffer.Length)) > 0)
+					{
+						context.Response.OutputStream.Write(buffer, 0, bytesCount);
+					}
+
 					fileStream.Close();
 				}
 				Console.WriteLine($"File {path} sended.");

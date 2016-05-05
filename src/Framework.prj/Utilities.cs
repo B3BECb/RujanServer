@@ -14,6 +14,7 @@ namespace RujanService.Framework
 		}
 
 		/// <summary>Возвращает словарь mime-типов.</summary>
+		/// <value>Mime-тип.</value>
 		public static IDictionary<string, string> MimeTypes { get; } = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase)
 		{
 			{".asf", "video/x-ms-asf"},
