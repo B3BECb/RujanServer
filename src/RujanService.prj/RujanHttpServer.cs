@@ -251,9 +251,8 @@ namespace RujanService
 					Assembly assembly = Assembly.LoadFrom(sitePath);
 					if(assembly != null)
 					{
-						var fileName = Path.GetFileNameWithoutExtension(sitePath);
-						var main = fileName + ".Main";
-						objType = assembly.GetType(main);
+						var objTypes = assembly.GetTypes();
+						objType = objTypes.Where(x => typeof(ISite).IsAssignableFrom(x)).FirstOrDefault();
 					}
 					if(objType != null)
 					{
