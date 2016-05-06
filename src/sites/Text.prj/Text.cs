@@ -35,13 +35,7 @@ namespace Text
 
 		public SiteResponse GetResponse(CancellationToken token, string request, string query)
 		{
-			var response = new StringBuilder();
-			var path = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
-			response.Append("<html><head><meta charset=\"utf-8\"></head><body>");
-			response.Append("<pre style=\"word - wrap: break-word; white - space: pre - wrap; \">");
-			response.Append(File.ReadAllText(path + "sites/text/text/textFile.txt", Encoding.UTF8));
-			response.Append("</pre></body></html>");
-			return new SiteResponse(response.ToString(), HttpStatusCode.OK);
+			return new SiteResponse(HttpStatusCode.BadRequest);
 		}
 
 		#endregion

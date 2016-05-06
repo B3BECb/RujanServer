@@ -62,6 +62,8 @@ namespace RujanService
 
 			InitializeSites(SitePath);
 
+			_listener.IgnoreWriteExceptions = true;
+
 			_listener.Start();
 
 			Console.WriteLine("Server started.");
@@ -104,13 +106,17 @@ namespace RujanService
 						continue;
 					}
 
-					if(Path.HasExtension(context.Request.Url.AbsolutePath))
+					if(context.Request.QueryString.Count > 0)
+					{
+						GetQueryResponse(context);
+					}
+					else if(Path.HasExtension(context.Request.Url.AbsolutePath))
 					{
 						GetFile(context);
 					}
 					else
-					{						
-						GetPageContent(context);
+					{
+						GetFile(context, true);
 					}
 				}
 				catch(Exception ex)
@@ -123,7 +129,7 @@ namespace RujanService
 			}
 		}
 
-		private void GetPageContent(HttpListenerContext context)
+		private void GetQueryResponse(HttpListenerContext context)
 		{
 			string path = context.Request.Url.AbsolutePath;
 			if(context.Request.Url.Segments.LastOrDefault().IndexOf('/') == -1)
@@ -158,19 +164,28 @@ namespace RujanService
 			}
 		}
 
-		private void GetFile(HttpListenerContext context)
+		private void GetFile(HttpListenerContext context, bool isIndexFile = false)
 		{
 			var targetSite = context.Request.Url.Segments[1].ToLower();
-			string path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(RujanHttpServer)).CodeBase) 
-				+ context.Request.Url.AbsolutePath;
+			string path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(RujanHttpServer)).CodeBase)
+					+ context.Request.Url.AbsolutePath;
 
 			if(targetSite != "favicon.ico")
 			{
 				path = context.Request.Url.AbsolutePath.ToLower().Replace(targetSite, "");
-				path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(RujanHttpServer)).CodeBase)
-					+ $"/sites/{targetSite}/{targetSite}/{path}";
+
+				if(isIndexFile)
+				{
+					path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(RujanHttpServer)).CodeBase)
+					+ $"/sites/{targetSite}/index.html";
+				}
+				else
+				{
+					path = Path.GetDirectoryName(Assembly.GetAssembly(typeof(RujanHttpServer)).CodeBase)
+						+ $"/sites/{targetSite}/{targetSite}/{path}";
+				}
 			}
-			path = path.Remove(0, 6);
+			path = path.Remove(0, 6);			
 
 			try
 			{
