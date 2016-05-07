@@ -121,8 +121,9 @@ namespace RujanService
 				}
 				catch(Exception ex)
 				{
+					string mime = Utilities.MimeTypes.Where(x => x.Key == ".html").FirstOrDefault().Value;
 					byte[] buffer = Encoding.UTF8.GetBytes(ex.ToString());
-					Response(context, buffer, HttpStatusCode.InternalServerError);
+					Response(context, buffer, mime, HttpStatusCode.InternalServerError);
 
 					Console.WriteLine($"Response status code:	{context.Response.StatusCode}");									
 				}
@@ -154,8 +155,13 @@ namespace RujanService
 
 					var siteResponse = site.GetResponse(_cts.Token, requestBody, context.Request.Url.Query);
 
+					string mime;
+					mime = Utilities.MimeTypes.TryGetValue(siteResponse.MimeType, out mime)
+						? mime
+						: "application/octet-stream"; 
+
 					byte[] buffer = Encoding.UTF8.GetBytes(siteResponse.ResponseContent);
-					Response(context, buffer, HttpStatusCode.OK);					
+					Response(context, buffer, mime, HttpStatusCode.OK);					
 				}
 				else
 				{
@@ -233,7 +239,7 @@ namespace RujanService
 			}
 		}
 
-		private void Response(HttpListenerContext context, byte[] bytesToWrite, HttpStatusCode statusCode)
+		private void Response(HttpListenerContext context, byte[] bytesToWrite, string mimeType, HttpStatusCode statusCode)
 		{
 			using(Stream stream = context.Response.OutputStream)
 			{
@@ -242,6 +248,7 @@ namespace RujanService
 				headers.Add(HttpRequestHeader.AcceptCharset, "utf-8");
 				headers.Add(HttpRequestHeader.AcceptEncoding, "gzip");
 				headers.Add(HttpRequestHeader.AcceptLanguage, "ru-RU");
+				headers.Add(HttpRequestHeader.ContentType, mimeType);
 
 				context.Response.Headers = headers;
 

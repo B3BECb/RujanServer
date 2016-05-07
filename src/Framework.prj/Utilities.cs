@@ -81,6 +81,8 @@ namespace RujanService.Framework
 			{".xml", "text/xml"},
 			{".xpi", "application/x-xpinstall"},
 			{".zip", "application/zip"},
+			{"json", "application/json" },
+			{"soap", "application/soap+xml" },
 		};
 	}
 }
